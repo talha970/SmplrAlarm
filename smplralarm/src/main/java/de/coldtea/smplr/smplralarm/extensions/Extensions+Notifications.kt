@@ -17,7 +17,7 @@ import de.coldtea.smplr.smplralarm.models.NotificationItem
  * Created by [Yasar Naci Gündüz](https://github.com/ColdTea-Projects).
  */
 
-private fun vibrationPattern() = longArrayOf(0, 500, 200, 500, 200, 500)
+private fun vibrationPattern() = longArrayOf(0, 2000, 500, 2000, 500, 2000)
 private fun Context.initChannelAndReturnName(notificationChannelItem: NotificationChannelItem): String =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channelId = packageName
