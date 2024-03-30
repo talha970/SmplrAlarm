@@ -166,7 +166,7 @@ internal class AlarmNotificationRepository(
             min = alarmNotification.alarmNotificationEntity.min,
             weekDays = alarmNotification.alarmNotificationEntity.activeDaysAsWeekdaysList()
                 ?: listOf(),
-            notificationChannelItem = alarmNotification.notificationChannelEntity.convertToNotificationChannelItem(),
+            notificationChannelItem = alarmNotification.notificationChannelEntity?.convertToNotificationChannelItem(),
             notificationItem = notificationItemWithButtons,
             contentIntent = contentIntent,
             fullScreenIntent = fullScreenIntent,
@@ -221,7 +221,7 @@ internal class AlarmNotificationRepository(
                     min = alarmNotification.alarmNotificationEntity.min,
                     weekDays = alarmNotification.alarmNotificationEntity.activeDaysAsWeekdaysList()
                         ?: listOf(),
-                    notificationChannelItem = alarmNotification.notificationChannelEntity.convertToNotificationChannelItem(),
+                    notificationChannelItem = alarmNotification.notificationChannelEntity?.convertToNotificationChannelItem(),
                     notificationItem = notificationItemWithButtons,
                     contentIntent = contentIntent,
                     fullScreenIntent = fullScreenIntent,
@@ -236,7 +236,11 @@ internal class AlarmNotificationRepository(
         val alarmNotification =
             alarmNotificationDatabase.daoAlarmNotification.getAlarmNotification(intentId).first()
 
-        alarmNotificationDatabase.daoNotificationChannel.delete(alarmNotification.notificationChannelEntity)
+        alarmNotification.notificationChannelEntity?.let {
+            alarmNotificationDatabase.daoNotificationChannel.delete(
+                it
+            )
+        }
         alarmNotificationDatabase.daoNotification.delete(alarmNotification.notificationEntity)
         alarmNotificationDatabase.daoAlarmNotification.delete(alarmNotification.alarmNotificationEntity)
 

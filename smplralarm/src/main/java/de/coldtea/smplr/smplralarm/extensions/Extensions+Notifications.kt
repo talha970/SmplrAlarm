@@ -17,6 +17,7 @@ import de.coldtea.smplr.smplralarm.models.NotificationItem
  * Created by [Yasar Naci Gündüz](https://github.com/ColdTea-Projects).
  */
 
+private fun vibrationPattern() = longArrayOf(0, 500, 200, 500, 200, 500)
 private fun Context.initChannelAndReturnName(notificationChannelItem: NotificationChannelItem): String =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         val channelId = packageName
@@ -28,6 +29,8 @@ private fun Context.initChannelAndReturnName(notificationChannelItem: Notificati
                 description = description
                 setShowBadge(showBadge)
                 setSound(null ,null)
+                vibrationPattern = vibrationPattern()
+                enableVibration(true)
             }
             notificationManager.createNotificationChannel(channel)
         }
@@ -55,6 +58,7 @@ internal fun Context.showNotification(
             setStyle(NotificationCompat.BigTextStyle().bigText(bigText))
             priority = NotificationCompat.PRIORITY_DEFAULT
             setAutoCancel(autoCancel?:true)
+            setVibrate(vibrationPattern())
             setAllowSystemGeneratedContextualActions(false)
 
             if (notificationItem.notificationDismissedIntent != null){

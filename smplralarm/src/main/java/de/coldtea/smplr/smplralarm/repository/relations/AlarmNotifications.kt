@@ -15,7 +15,7 @@ internal data class AlarmNotifications (
         parentColumn = "alarm_notification_id",
         entityColumn = "fk_alarm_notification_id"
     )
-    val notificationChannelEntity: NotificationChannelEntity,
+    val notificationChannelEntity: NotificationChannelEntity?,
     @Relation(
         parentColumn = "alarm_notification_id",
         entityColumn = "fk_alarm_notification_id"
