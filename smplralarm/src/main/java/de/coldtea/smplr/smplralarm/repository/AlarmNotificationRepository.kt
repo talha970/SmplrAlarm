@@ -380,7 +380,7 @@ internal class AlarmNotificationRepository(
             }
 
             return intent
-        } catch (ex: URISyntaxException) {
+        } catch (ex: Exception) {
             return null
         }
 

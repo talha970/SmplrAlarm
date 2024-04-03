@@ -3,6 +3,7 @@ package de.coldtea.smplr.smplralarm.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import de.coldtea.smplr.smplralarm.CoroutineLoggingExceptionHandler
 import de.coldtea.smplr.smplralarm.repository.AlarmNotificationRepository
 import de.coldtea.smplr.smplralarm.services.AlarmService
 import kotlinx.coroutines.CoroutineScope
@@ -29,7 +30,7 @@ internal class TimeChangeReceiver : BroadcastReceiver() {
     private fun onBootComplete(context: Context) =
         try {
 
-            CoroutineScope(Dispatchers.IO).launch {
+            CoroutineScope(Dispatchers.IO + CoroutineLoggingExceptionHandler()).launch {
                 val notificationRepository = AlarmNotificationRepository(context)
                 val alarmNotifications = notificationRepository.getAllAlarmNotifications()
                 val alarmService = AlarmService(context)
