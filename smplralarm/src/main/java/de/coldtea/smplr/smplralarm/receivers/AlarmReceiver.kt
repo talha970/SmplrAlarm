@@ -53,7 +53,7 @@ internal class AlarmReceiver : BroadcastReceiver() {
                                     alarmReceivedIntent = alarmNotification.alarmReceivedIntent,
                                     fullScreenIntent = alarmNotification.fullScreenIntent
                                 )
-                            }
+                            } ?: Timber.e("notification not found")
                         }
 
                         if (alarmNotification.weekDays.isNullOrEmpty())

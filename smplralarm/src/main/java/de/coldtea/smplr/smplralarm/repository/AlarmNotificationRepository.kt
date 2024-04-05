@@ -83,17 +83,18 @@ internal class AlarmNotificationRepository(
             )
         }
 
-        alarmNotificationDatabase.daoAlarmNotification.insert(alarmNotification.extractAlarmNotificationEntity())
-        alarmNotificationDatabase.daoNotificationChannel.insert(
-            alarmNotification.extractNotificationChannelEntity(
-                alarmNotification.alarmNotificationId
+            alarmNotificationDatabase.daoAlarmNotification.insert(alarmNotification.extractAlarmNotificationEntity())
+            alarmNotificationDatabase.daoNotificationChannel.insert(
+                alarmNotification.extractNotificationChannelEntity(
+                    alarmNotification.alarmNotificationId
+                )
             )
-        )
-        alarmNotificationDatabase.daoNotification.insert(
-            alarmNotification.extractNotificationEntity(
-                alarmNotification.alarmNotificationId
+            alarmNotificationDatabase.daoNotification.insert(
+                alarmNotification.extractNotificationEntity(
+                    alarmNotification.alarmNotificationId
+                )
             )
-        )
+
 
     }
 
@@ -140,7 +141,7 @@ internal class AlarmNotificationRepository(
         )
 
         val notificationItemWithButtons =
-            alarmNotification.notificationEntity.convertToNotificationItem().apply {
+            alarmNotification.notificationEntity?.convertToNotificationItem()?.apply {
                 if (firstButtonText != null) {
                     firstButtonIntent = retrieveIntent(
                         SMPLR_ALARM_INTENTS_SHARED_PREFERENCES_FIRST_BUTTON_INTENT_PREFIX,
@@ -194,8 +195,8 @@ internal class AlarmNotificationRepository(
                 )
 
                 val notificationItemWithButtons =
-                    alarmNotification.notificationEntity.convertToNotificationItem()
-                        .apply {
+                    alarmNotification.notificationEntity?.convertToNotificationItem()
+                        ?.apply {
                             if (firstButtonText != null) {
                                 firstButtonIntent = retrieveIntent(
                                     SMPLR_ALARM_INTENTS_SHARED_PREFERENCES_FIRST_BUTTON_INTENT_PREFIX,
@@ -241,7 +242,11 @@ internal class AlarmNotificationRepository(
                 it
             )
         }
-        alarmNotificationDatabase.daoNotification.delete(alarmNotification.notificationEntity)
+        alarmNotification.notificationEntity?.let {
+            alarmNotificationDatabase.daoNotification.delete(
+                it
+            )
+        }
         alarmNotificationDatabase.daoAlarmNotification.delete(alarmNotification.alarmNotificationEntity)
 
     }

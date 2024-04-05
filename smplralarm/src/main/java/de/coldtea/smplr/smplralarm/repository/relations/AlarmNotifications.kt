@@ -20,5 +20,5 @@ internal data class AlarmNotifications (
         parentColumn = "alarm_notification_id",
         entityColumn = "fk_alarm_notification_id"
     )
-    val notificationEntity: NotificationEntity
+    val notificationEntity: NotificationEntity?
 )
