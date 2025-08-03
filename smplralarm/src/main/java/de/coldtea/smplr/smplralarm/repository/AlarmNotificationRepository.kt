@@ -84,6 +84,7 @@ internal class AlarmNotificationRepository(
         }
 
             alarmNotificationDatabase.daoAlarmNotification.insert(alarmNotification.extractAlarmNotificationEntity())
+        alarmNotification.notificationItem?.let {
             alarmNotificationDatabase.daoNotificationChannel.insert(
                 alarmNotification.extractNotificationChannelEntity(
                     alarmNotification.alarmNotificationId
@@ -94,6 +95,9 @@ internal class AlarmNotificationRepository(
                     alarmNotification.alarmNotificationId
                 )
             )
+        }
+
+
 
 
     }
