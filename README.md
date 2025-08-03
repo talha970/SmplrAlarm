@@ -123,8 +123,8 @@ All that SmplrAlarm requires to set an alarm is an integer reperesenting the hou
 
 ````kotlin
 smplrAlarmSet(applicationContext) {
-	hour { hour }
-	min { minute }
+        hour { hour }
+        min { minute }
 }
 ````
 
@@ -143,9 +143,25 @@ smplrAlarmSet(applicationContext) {
 		monday()
 		friday()
 		sunday()
-	}
+        }
 }
 ````
+
+### Alarm without notification
+
+If you only need to react to an alarm in your own `BroadcastReceiver` without displaying any notification, simply omit the `notification` and `notificationChannel` blocks and supply an `alarmReceivedIntent`:
+
+````kotlin
+val alarmReceivedIntent = Intent(applicationContext, AlarmBroadcastReceiver::class.java)
+
+smplrAlarmSet(applicationContext) {
+    hour { hour }
+    min { minute }
+    alarmReceivedIntent { alarmReceivedIntent }
+}
+````
+
+This will trigger your `AlarmBroadcastReceiver` when the alarm goes off without showing any notification.
 
 ### Adding a notification and Notification channel
 

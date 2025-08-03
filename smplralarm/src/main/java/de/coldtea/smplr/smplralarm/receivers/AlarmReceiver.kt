@@ -3,6 +3,7 @@ package de.coldtea.smplr.smplralarm.receivers
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import de.coldtea.smplr.smplralarm.apis.SmplrAlarmAPI
 import de.coldtea.smplr.smplralarm.extensions.showNotification
 import de.coldtea.smplr.smplralarm.repository.AlarmNotificationRepository
 import de.coldtea.smplr.smplralarm.services.AlarmService
@@ -43,16 +44,22 @@ internal class AlarmReceiver : BroadcastReceiver() {
 
                         val alarmNotification = it.getAlarmNotification(requestId)
 
-                        alarmNotification.notificationChannelItem?.let { channel ->
-                            alarmNotification.notificationItem?.let { notification ->
-                                context.showNotification(
-                                    requestId = requestId,
-                                    notificationChannelItem = channel,
-                                    notificationItem = notification,
-                                    contentIntent = alarmNotification.contentIntent,
-                                    alarmReceivedIntent = alarmNotification.alarmReceivedIntent,
-                                    fullScreenIntent = alarmNotification.fullScreenIntent
-                                )
+                        val channel = alarmNotification.notificationChannelItem
+                        val notification = alarmNotification.notificationItem
+
+                        if (channel != null && notification != null) {
+                            context.showNotification(
+                                requestId = requestId,
+                                notificationChannelItem = channel,
+                                notificationItem = notification,
+                                contentIntent = alarmNotification.contentIntent,
+                                alarmReceivedIntent = alarmNotification.alarmReceivedIntent,
+                                fullScreenIntent = alarmNotification.fullScreenIntent
+                            )
+                        } else {
+                            alarmNotification.alarmReceivedIntent?.let { alarmIntent ->
+                                alarmIntent.putExtra(SmplrAlarmAPI.SMPLR_ALARM_REQUEST_ID, requestId)
+                                context.sendBroadcast(alarmIntent)
                             } ?: Timber.e("notification not found")
                         }
 
