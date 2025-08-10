@@ -20,7 +20,8 @@ internal class RebootReceiver : BroadcastReceiver() {
         Timber.i("onRecieve --> ${intent.action}")
         when (intent.action) {
             Intent.ACTION_BOOT_COMPLETED,
-            Intent.ACTION_LOCKED_BOOT_COMPLETED -> onBootComplete(context)
+            Intent.ACTION_LOCKED_BOOT_COMPLETED,
+            Intent.ACTION_MY_PACKAGE_REPLACED -> onBootComplete(context)
             else -> Timber.w("onRecieve --> Recieved illegal broadcast!")
         }
     }
